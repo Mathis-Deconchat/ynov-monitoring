@@ -1,0 +1,41 @@
+version: "3.8"
+
+networks: 
+  monitoring:
+
+services:
+  influx:
+    container_name: influx-ynov
+    image: influxdb:latest
+    volumes:
+      - influxdb:/var/lib/influxdb2
+    env_file:
+      - ./.env
+    ports:
+      - 8086:8086
+    networks:
+      - monitoring
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    volumes:
+    - grafana:/var/lib/grafana
+
+    env_file:
+      - ./.env
+    ports:
+      - 3000:3000
+    depends_on:
+      - influx
+    networks:
+      - monitoring
+
+
+
+volumes:
+  influxdb:
+    external: false
+
+  grafana:
+    external: false
