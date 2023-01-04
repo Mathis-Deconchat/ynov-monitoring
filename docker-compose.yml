@@ -2,6 +2,8 @@ version: "3.8"
 
 networks: 
   monitoring:
+    name: monitoring-ynov
+    external: true
 
 services:
   influx:
@@ -21,7 +23,6 @@ services:
     image: grafana/grafana:latest
     volumes:
     - grafana:/var/lib/grafana
-
     env_file:
       - ./.env
     ports:
